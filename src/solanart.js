@@ -8,7 +8,7 @@ const LISTINGS_URL = `https://tlsktfahct.medianetwork.cloud/nft_for_sale?collect
 const queryListings = async () => (await axios.get(LISTINGS_URL)).data;
 const querySales = async () => (await axios.get(SALES_URL)).data;
 
-const lastListed = async () => (await queryListings()).reverse()[0];
+const lastListed = async () => (await queryListings()).sort((a, b) => b.date - a.date)[0];
 const lastSold = async () => (await querySales())[0];
 const floor = async () => (await queryListings()).sort((a, b) => a.price - b.price)[0];
 

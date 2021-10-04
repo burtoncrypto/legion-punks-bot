@@ -64,7 +64,7 @@ async function buildClient({ token, guild }, logger) {
   };
 
   const handleInteraction = async (client, interaction) => {
-    const options = interaction.data.options.reduce((acc, d) => ({ ...acc, [d.name]: d.value, }), {});
+    const options = (interaction.data.options || []).reduce((acc, d) => ({ ...acc, [d.name]: d.value, }), {});
 
     client.api.interactions(interaction.id, interaction.token).callback.post({
       data: {
