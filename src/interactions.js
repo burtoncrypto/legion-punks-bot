@@ -32,7 +32,6 @@ const howrare = async options => {
 
     let value = capitalize(`${valueParsed[1].trim()} ${valueParsed[2]}`.trim());
 
-    console.log(name);
     if (name === 'Price:') {
       value = value.replace('buy', '').trim();
     }
