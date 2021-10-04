@@ -23,18 +23,19 @@ const {
 
 const TICK_TIME = 10;
 
-async function tick(sender) {
-  await Promise.all((await getNewListings()).map(item => sender.listing(item)));
-  await Promise.all((await getNewSales()).map(item => sender.sale(item)));
+async function tick(sender, logger) {
+  logger.info('tick');
+  await Promise.all((await getNewListings(logger)).map(item => sender.listing(item)));
+  await Promise.all((await getNewSales(logger)).map(item => sender.sale(item)));
 }
 
-async function tickWithErrorHandler(sender) {
+async function tickWithErrorHandler(sender, logger) {
   try {
-    await tick(sender);
+    await tick(sender, logger);
   } catch (e) {
     logger.error(e);
   } finally {
-    setTimeout(() => tickWithErrorHandler(sender), TICK_TIME * 1000);
+    setTimeout(() => tickWithErrorHandler(sender, logger), TICK_TIME * 1000);
   }
 }
 
@@ -44,9 +45,17 @@ async function main() {
     guild: DISCORD_GUILD_ID
   }, logger);
 
-  discord.registerInteraction('floor', 'Get the floor Legion Punk', interactions.floor);
-  discord.registerInteraction('last_listed', 'Get the last listed Legion Punk', interactions.lastListed);
-  discord.registerInteraction('last_sold', 'Get the last sold Legion Punk', interactions.lastSold);
+  discord.registerInteraction({ name: 'floor', description: 'Get the floor Legion Punk' }, interactions.floor);
+  discord.registerInteraction({ name: 'last_listed', description: 'Get the last listed Legion Punk' }, interactions.lastListed);
+  discord.registerInteraction({ name: 'last_sold', description: 'Get the last sold Legion Punk' }, interactions.lastSold);
+
+  if (false) {
+    discord.registerInteraction({
+      name: 'howrare',
+      description: 'Get the howrare rank of the Legion Punk',
+      options: [{ type: 4, name: 'id', description: 'Punk Number', required: true }],
+    }, interactions.howrare)
+  }
 
   const twitter = buildTwitterClient({
     apiKey: TWITTER_API_KEY,
@@ -63,7 +72,7 @@ async function main() {
   }));
   sender.addSender('twitter', await twitterSenderFactory.buildSender(twitter));
 
-  tickWithErrorHandler(sender);
+  tickWithErrorHandler(sender, logger);
 }
 
 module.exports = {

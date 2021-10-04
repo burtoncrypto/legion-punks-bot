@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-function buildMessage(item, { title }) {
+function buildSolanartMessage(item, { title }) {
   return {
     embeds: [
       new Discord.MessageEmbed()
@@ -14,6 +14,19 @@ function buildMessage(item, { title }) {
         .setImage(item.link_img)
         .setTimestamp(Date.parse(item.date))
         .setFooter('Listed on Solanart', 'https://solanart.io/static/media/logo.9a0a46b5.png'),
+    ],
+  };
+}
+
+function buildHowRareMessage(item, { title }) {
+  return {
+    embeds: [
+      new Discord.MessageEmbed()
+        .setTitle(title)
+        .setURL('https://solanart.io/collections/legionpunks')
+        .setAuthor('LegionPunks Bot', 'https://pbs.twimg.com/profile_images/1416115833546461199/nKvh-TnY_400x400.jpg', 'https://legionpunks.com')
+        .addFields(item.attributes)
+        .setImage(item.link_img)
     ],
   };
 }
@@ -33,7 +46,7 @@ async function buildClient({ token, guild }, logger) {
 
   const getChannel = async channelId => client.channels.fetch(channelId);
 
-  const registerInteraction = (name, description, interactionFunc) => {
+  const registerInteraction = ({ name, description, options = [] }, interactionFunc) => {
     let func = client.api.applications(client.user.id);
 
     if (guild) {
@@ -44,16 +57,19 @@ async function buildClient({ token, guild }, logger) {
       data: {
         name,
         description,
+        options,
       },
     });
     interactions[name] = interactionFunc;
   };
 
   const handleInteraction = async (client, interaction) => {
+    const options = interaction.data.options.reduce((acc, d) => ({ ...acc, [d.name]: d.value, }), {});
+
     client.api.interactions(interaction.id, interaction.token).callback.post({
       data: {
         type: 4,
-        data: await interactions[interaction.data.name](),
+        data: await interactions[interaction.data.name](options),
       },
     });
   };
@@ -66,5 +82,6 @@ async function buildClient({ token, guild }, logger) {
 
 module.exports = {
   buildClient,
-  buildMessage,
+  buildSolanartMessage,
+  buildHowRareMessage,
 };
