@@ -1,0 +1,30 @@
+{
+  "name": "legionpunks-discord-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "lint": "eslint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "lodash": "^4.17.21",
+    "pino": "^6.13.3",
+    "twitter": "^1.7.1"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
