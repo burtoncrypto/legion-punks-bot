@@ -40,6 +40,14 @@ async function buildClient({ token, guild }, logger) {
       func = func.guilds(guild);
     }
 
+    logger.info(guild);
+    logger.info({
+      data: {
+        name,
+        description,
+      },
+    });
+
     func.commands.post({
       data: {
         name,
