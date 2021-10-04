@@ -25,8 +25,16 @@ const TICK_TIME = 10;
 
 async function tick(sender, logger) {
   logger.info('tick');
-  await Promise.all((await getNewListings(logger)).map(item => sender.listing(item)));
-  await Promise.all((await getNewSales(logger)).map(item => sender.sale(item)));
+
+  const [listings, sales] = await Promise.all([
+    getNewListings(logger),
+    getNewSales(logger),
+  ]);
+
+  await Promise.all([
+    ...listings.map(item => sender.listing(item)),
+    ...sales.map(item => sender.sale(item)),
+  ]);
 }
 
 async function tickWithErrorHandler(sender, logger) {
