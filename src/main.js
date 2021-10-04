@@ -57,13 +57,11 @@ async function main() {
   discord.registerInteraction({ name: 'last_listed', description: 'Get the last listed Legion Punk' }, interactions.lastListed);
   discord.registerInteraction({ name: 'last_sold', description: 'Get the last sold Legion Punk' }, interactions.lastSold);
 
-  if (false) {
-    discord.registerInteraction({
-      name: 'howrare',
-      description: 'Get the howrare rank of the Legion Punk',
-      options: [{ type: 4, name: 'id', description: 'Punk Number', required: true }],
-    }, interactions.howrare)
-  }
+  discord.registerInteraction({
+    name: 'howrare',
+    description: 'Get the howrare rank of the Legion Punk',
+    options: [{ type: 4, name: 'id', description: 'Punk Number', required: true }],
+  }, interactions.howrare);
 
   const twitter = buildTwitterClient({
     apiKey: TWITTER_API_KEY,
