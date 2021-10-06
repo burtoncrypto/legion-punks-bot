@@ -2,8 +2,8 @@ const _ = require('lodash');
 const axios = require('axios');
 
 const COLLECTION_NAME = 'legionpunks';
-const SALES_URL = `https://tlsktfahct.medianetwork.cloud/all_sold_per_collection_day?collection=${COLLECTION_NAME}`;
-const LISTINGS_URL = `https://tlsktfahct.medianetwork.cloud/nft_for_sale?collection=${COLLECTION_NAME}`;
+const SALES_URL = `https://qzlsklfacc.medianetwork.cloud/all_sold_per_collection_day?collection=${COLLECTION_NAME}`;
+const LISTINGS_URL = `https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=${COLLECTION_NAME}`;
 
 const queryListings = async () => (await axios.get(LISTINGS_URL)).data;
 const querySales = async () => (await axios.get(SALES_URL)).data;
