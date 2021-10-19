@@ -9,7 +9,7 @@ function buildSolanartMessage(item, { title }) {
         .setAuthor('LegionPunks Bot', 'https://pbs.twimg.com/profile_images/1416115833546461199/nKvh-TnY_400x400.jpg', 'https://legionpunks.com')
         .addFields(
           { name: 'Name', value: item.name },
-          { name: 'Amount', value: `${item.price} ${item.currency}` },
+          { name: 'Amount', value: `${item.price} ${item.currency || 'SOL'}` },
         )
         .setImage(item.link_img)
         .setTimestamp(Date.parse(item.date))
